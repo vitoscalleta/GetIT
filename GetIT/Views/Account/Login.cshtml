@@ -1,0 +1,26 @@
+﻿@model GetIT.Models.LoginVM
+@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 class="ml-3">Login</h2>
+<div class="col-md-5">
+    <form method="post">
+        <div class="text-danger" asp-validation-summary="All"></div>
+        <div class="form-group">
+            <label asp-for="UserName"></label>
+            <input class="form-control col-md-4" asp-for="UserName" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input class="form-control col-md-4" asp-for="Password" />
+        </div>
+        <div class="form-group form-inline">
+            <label asp-for="RememberMe"></label>
+            <input class="form-check ml-3" type="checkbox" asp-for="RememberMe" />
+        </div>
+        <button class="btn btn-success" asp-action="Login" asp-controller="Account" type="submit">Submit</button>
+    </form>
+</div>
+
+

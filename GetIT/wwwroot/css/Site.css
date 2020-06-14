@@ -1,0 +1,9 @@
+﻿body {
+}
+
+.seperator {
+    display: inline-block;
+    border-left: 1px solid #ccc;
+    margin: 10px;
+    height: 30px;
+}

@@ -39,8 +39,8 @@ namespace GetIT.Controllers
 
                 if(result.Succeeded)
                 {
-                    await _SignInManager.SignInAsync(identityUser, isPersistent: false);
-                    return RedirectToAction("index","Home");
+                    await _SignInManager.SignInAsync(identityUser, isPersistent: false);                    
+                   return RedirectToAction("index","Home");
                 }
                 else
                 {
@@ -55,25 +55,25 @@ namespace GetIT.Controllers
         }
 
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginVM loginVM)
+        public async Task<IActionResult> Login(LoginVM loginVM,string returnUrl)
         {
             if(ModelState.IsValid)
             {
-                //IdentityUser identityUser = new IdentityUser
-                //{
-                //    Email = loginVM.UserName
-                //};
                 IdentityUser identityUser1 = await _UserManager.FindByNameAsync(loginVM.UserName);
-                var result = await _SignInManager.PasswordSignInAsync(identityUser1, loginVM.Password, loginVM.RememberMe, false); ;
+                var result = await _SignInManager.PasswordSignInAsync(identityUser1, loginVM.Password, loginVM.RememberMe, false);
                 if(result.Succeeded)
                 {
-                    return RedirectToAction("index", "home");
+                    if (!string.IsNullOrEmpty(returnUrl))
+                        return Redirect(returnUrl);
+                    else
+                        return RedirectToAction("index", "home");
                 }else
                 {
                     ModelState.AddModelError("", "Invalid Username or password");

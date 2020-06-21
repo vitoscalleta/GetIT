@@ -14,9 +14,13 @@ namespace GetIT.DatabaseLayer.Repository.Interface
 
         List<Product> GetProductsByName(string name);
 
-        List<Product> GetProductsByCatergory(string category);
+        List<Product> GetProductsByCatergory(int category);
 
-        List<Product> GetProducsBySubCategory(string  subCategory);
+        List<Product> GetProductsBySubCategories(int subCategory);
+
+        List<ProductCategory> GetAllProductCategories();
+
+        List<ProductSubCategory> GetAllProductSubCategories();
 
         int GetNextId();
     }

@@ -26,6 +26,7 @@ namespace GetIT.DatabaseLayer.Repository.Implementation
         public void AddProduct(Product product)
         {
             _DbContext.Products.Add(product);
+            _DbContext.SaveChanges();
         }
 
         public Product GetProductById(int id)
@@ -33,19 +34,31 @@ namespace GetIT.DatabaseLayer.Repository.Implementation
             return _DbContext.Products.FirstOrDefault(product => product.Id == id);
         }
 
+         
         public List<Product> GetProductsByName(string name)
         {
             return _DbContext.Products.Where(product => product.ProductName == name).ToList();
         }
 
-        public List<Product> GetProductsByCatergory(string category)
+        public List<Product> GetProductsByCatergory(int category)
         {
             return _DbContext.Products.Where(product => product.Category == category).ToList();
         }
 
-        public List<Product> GetProducsBySubCategory(string subCategory)
+        public List<Product> GetProductsBySubCategories(int subCategory)
         {
             return _DbContext.Products.Where(product => product.SubCategory == subCategory).ToList();
         }
+
+        public List<ProductCategory> GetAllProductCategories()
+        {
+            return _DbContext.ProductCategories.ToList();
+        }
+
+        public List<ProductSubCategory> GetAllProductSubCategories()
+        {
+            return _DbContext.ProductSubCategories.ToList();
+        }
+
     }
 }

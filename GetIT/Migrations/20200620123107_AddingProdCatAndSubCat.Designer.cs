@@ -4,14 +4,16 @@ using GetIT.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GetIT.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200620123107_AddingProdCatAndSubCat")]
+    partial class AddingProdCatAndSubCat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +27,7 @@ namespace GetIT.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Category");
+                    b.Property<string>("Category");
 
                     b.Property<string>("Description");
 
@@ -33,7 +35,7 @@ namespace GetIT.Migrations
 
                     b.Property<string>("ProductName");
 
-                    b.Property<int>("SubCategory");
+                    b.Property<string>("SubCategory");
 
                     b.HasKey("Id");
 
@@ -52,6 +54,8 @@ namespace GetIT.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<int>("SubCategoryId");
+
                     b.HasKey("Id");
 
                     b.ToTable("ProductCategories");
@@ -68,8 +72,6 @@ namespace GetIT.Migrations
                     b.Property<double>("Discount");
 
                     b.Property<string>("Name");
-
-                    b.Property<int>("ProductCategory");
 
                     b.HasKey("Id");
 

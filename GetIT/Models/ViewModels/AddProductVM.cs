@@ -16,11 +16,11 @@ namespace GetIT.ViewModels.Models
         [Required]
         public double Price { get; set; }
 
-        public string ProductCategory { get; set; }
+        public int ProductCategory { get; set; }
 
         public List<string> ProductCategoryList { get; set; }
 
-        public string ProductSubCategory { get; set; }
+        public int ProductSubCategory { get; set; }
 
         public List<string> ProductSubCategoryList { get; set; }
 

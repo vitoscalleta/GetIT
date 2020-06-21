@@ -16,8 +16,8 @@ namespace GetIT.DatabaseLayer.Dto
 
         public double Price { get; set; }
         
-        public string Category { get; set; }
+        public int Category { get; set; }
 
-        public string SubCategory { get; set; }
+        public int SubCategory { get; set; }
     }
 }

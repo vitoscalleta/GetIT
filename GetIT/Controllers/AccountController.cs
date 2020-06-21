@@ -70,8 +70,8 @@ namespace GetIT.Controllers
                 var result = await _SignInManager.PasswordSignInAsync(identityUser1, loginVM.Password, loginVM.RememberMe, false);
                 if(result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(returnUrl))
-                        return Redirect(returnUrl);
+                    if (!string.IsNullOrEmpty(returnUrl)&& Url.IsLocalUrl(returnUrl))
+                        return LocalRedirect(returnUrl);
                     else
                         return RedirectToAction("index", "home");
                 }else

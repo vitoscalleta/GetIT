@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static GetIT.Utility.Classes.Enumerators;
 
-namespace GetIT.ViewModels.Models
+namespace GetIT.Models.ViewModels
 {
     public class AddProductVM
     {

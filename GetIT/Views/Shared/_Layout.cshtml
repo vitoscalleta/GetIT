@@ -30,8 +30,8 @@
             <button class="btn btn-success">Search</button>
             <span class="seperator"></span>
             <div class="dropdown">
-                <button class="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" data-target="userAccountOptions">
-                    <span class="fa fa-user" style="color:#ffff;font-size:1.5em"></span>
+                <button class="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"  style="color:#ffff;" data-target="userAccountOptions">
+                    <span class="fa fa-user" style="font-size:1.5em"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right" role="menu" id="userAccountOptions">
                     @if (signInManager.IsSignedIn(User))
@@ -78,7 +78,7 @@
                         <span class="">Components</span>
                     </button>
                     <ul class="dropdown-menu" role="menu" style="font-size:small;">
-                        <li class="nav-link"><a href="#">Motherboards</a></li>
+                        <li class="nav-link"><a href="../Product/ProductList?subCategoryId=5">Motherboards</a></li>
                         <li class="nav-link"><a href="#">Processors</a></li>
                         <li class="nav-link"><a href="#">Monitors</a></li>
                     </ul>

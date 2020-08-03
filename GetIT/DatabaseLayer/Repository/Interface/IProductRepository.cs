@@ -22,6 +22,8 @@ namespace GetIT.DatabaseLayer.Repository.Interface
 
         List<ProductSubCategory> GetAllProductSubCategories();
 
+        List<ProductSubCategory> GetProductSubCategoriesByCategory(int categoryID);
+
         int GetNextId();
     }
 }

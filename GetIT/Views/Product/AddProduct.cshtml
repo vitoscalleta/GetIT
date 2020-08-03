@@ -1,5 +1,5 @@
 ﻿@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
-@model GetIT.ViewModels.Models.AddProductVM;
+@model GetIT.Models.ViewModels.AddProductVM;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -26,8 +26,27 @@
             </div>
             <div class="form-group">
                 <label asp-for="ProductSubCategory"></label>
-                <select type="number" asp-for="ProductSubCategory"  asp-items="@(new SelectList(ViewBag.ProductSubCategories, "Id", "Name"))" class="form-control col-md-4" ></select>
+                <select type="number" asp-for="ProductSubCategory" class="form-control col-md-4" ></select>
             </div>
             <button class="btn btn-success" type="submit" asp-action="AddProduct" asp-controller="Product">Add</button>
         </form>
     </div>
+
+    <script type="text/javascript">
+
+    $(function () {
+    $('#@Html.IdFor(m=>m.ProductCategory)').change(function () {
+        var categoryId = $(this).val();
+        var subCategoryItems = "";
+        $.getJSON(
+            "../Product/GetSubCategories", { Id: categoryId } ,
+         function (data) {
+             $.each(data, function (index, item) {
+                subCategoryItems += "<option value'" + item.id + "'>" + item.name + "</option>";
+            });
+            $('#@Html.IdFor(m=>m.ProductSubCategory)').html(subCategoryItems);
+        }
+        );
+    });
+});
+</script>

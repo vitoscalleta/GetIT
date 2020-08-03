@@ -1,0 +1,25 @@
+﻿@using GetIT.Models.ViewModels;
+@model IEnumerable<ProductVM>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container container-fluid">
+    <div class="row">
+        @foreach (ProductVM product in Model)
+        {
+            <div class="col-md-4 col-sm-2 col-1">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.ProductName</h5>
+                        <h6 class="card-subtitle text-muted">$ @product.Price</h6>
+                        <p class="card-text">@product.Description</p>
+                        <a href="#" class="card-link">Add to Cart</a>
+                        <a href="#" class="card-link">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

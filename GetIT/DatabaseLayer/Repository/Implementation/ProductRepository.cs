@@ -20,7 +20,7 @@ namespace GetIT.DatabaseLayer.Repository.Implementation
 
         public int GetNextId()
         {
-           return _DbContext.Products.Max(a => a.Id) + 1;
+            return _DbContext.Products.Max(a => a.Id) + 1;
         }
 
         public void AddProduct(Product product)
@@ -34,7 +34,7 @@ namespace GetIT.DatabaseLayer.Repository.Implementation
             return _DbContext.Products.FirstOrDefault(product => product.Id == id);
         }
 
-         
+
         public List<Product> GetProductsByName(string name)
         {
             return _DbContext.Products.Where(product => product.ProductName == name).ToList();
@@ -60,5 +60,10 @@ namespace GetIT.DatabaseLayer.Repository.Implementation
             return _DbContext.ProductSubCategories.ToList();
         }
 
+         public List<ProductSubCategory> GetProductSubCategoriesByCategory(int categoryID)
+        {
+            return _DbContext.ProductSubCategories.Where(p => p.ProductCategory == categoryID).ToList();
+        }
+        
     }
 }

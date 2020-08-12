@@ -4,35 +4,65 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="container container-fluid ml-0">
-        <h2 class="font-weight-light"> Add Product </h2>
-        <div class="text-danger" asp-validation-summary="All"></div>
-        <form method="post">
-            <div class="form-group">
-                <label asp-for="ProductName"></label>
-                <input type="text" asp-for="ProductName" class="form-control col-md-4" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Description"></label>
-                <textarea rows="4" asp-for="Description" class="form-control col-md-4"> </textarea>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price"></label>
-                <input type="number" asp-for="Price" class="form-control col-md-4" />
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductCategory"></label>
-                <select asp-for="ProductCategory"  asp-items="@(new SelectList(ViewBag.ProductCategories, "Id", "Name"))" class="form-control col-md-4" ></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductSubCategory"></label>
-                <select type="number" asp-for="ProductSubCategory" class="form-control col-md-4" ></select>
-            </div>
-            <button class="btn btn-success" type="submit" asp-action="AddProduct" asp-controller="Product">Add</button>
-        </form>
-    </div>
+<style>
+    .dropzone {
+        border: 3px dashed #00a1f1;
+        background: #F0F8FF;
+        margin: 25px;
+        border-radius: 5px;
+        max-width: 400px;
+    }
 
-    <script type="text/javascript">
+        .dropzone .dz-message {
+            font-weight: 350;
+        }
+
+            .dropzone .dz-message .note {
+                font-family: sans-serif;
+                font-size: 18px;
+                font-weight: 200;
+                display: block;
+                margin-top: 1.5rem;
+            }
+</style>
+<div class="container container-fluid ml-0">
+    <h2 class="font-weight-light"> Add Product </h2>
+    <div class="text-danger" asp-validation-summary="All"></div>
+    <form enctype="multipart/form-data" method="post">
+        <div class="form-group">
+            <label asp-for="ProductName"></label>
+            <input type="text" asp-for="ProductName" class="form-control col-md-4" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <textarea rows="4" asp-for="Description" class="form-control col-md-4"> </textarea>
+        </div>
+        <div class="form-group">
+            <label asp-for="Price"></label>
+            <input type="number" asp-for="Price" class="form-control col-md-4" />
+        </div>
+        <div class="form-group">
+            <label asp-for="ProductCategory"></label>
+            <select asp-for="ProductCategory" asp-items="@(new SelectList(ViewBag.ProductCategories, "Id", "Name"))" class="form-control col-md-4"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="ProductSubCategory"></label>
+            <select type="number" asp-for="ProductSubCategory" class="form-control col-md-4"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Images"></label>         
+            <div class="col-sm-10 col-md-6">
+                <div class="custom-file">
+                    <input asp-for="Images" class="form-control custom-file-input" />
+                    <label class="custom-file-label">Choose files ..</label>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-success" type="submit" asp-action="AddProduct" asp-controller="Product">Add</button>
+    </form>
+</div>
+
+<script type="text/javascript">
 
     $(function () {
     $('#@Html.IdFor(m=>m.ProductCategory)').change(function () {
@@ -42,11 +72,20 @@
             "../Product/GetSubCategories", { Id: categoryId } ,
          function (data) {
              $.each(data, function (index, item) {
-                subCategoryItems += "<option value'" + item.id + "'>" + item.name + "</option>";
+                subCategoryItems += "<option value='" + item.id + "'>" + item.name + "</option>";
             });
             $('#@Html.IdFor(m=>m.ProductSubCategory)').html(subCategoryItems);
         }
         );
     });
-});
+    });
+
+
+    $(document).ready(function () {
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).next('.custom-file-label').html(fileName);
+        });
+    });
+
 </script>

@@ -1,40 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using GetIT.DatabaseLayer.Dto;
 using GetIT.DatabaseLayer.Repository.Interface;
+using GetIT.Helpers.Interface;
 using GetIT.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace GetIT.Controllers
 {
     public class ProductController : Controller
     {
         IProductRepository _IProductRepository;
+        IImageStorageHelper _ImageStorageHelper;
 
-        public ProductController(IProductRepository iProductRepository)
+        public ProductController(IProductRepository iProductRepository, IImageStorageHelper imageStorageHelper)
         {
             _IProductRepository = iProductRepository;
+            _ImageStorageHelper = imageStorageHelper;
         }
 
         [Authorize]
         [HttpGet]
         public IActionResult AddProduct()
-        {
+        {            
             AddProductVM addProductVM = new AddProductVM();
             loadDropDowns();
-            return View();
+            return View(addProductVM);
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult AddProduct(AddProductVM addProductVM)
+        public async Task<IActionResult> AddProduct(AddProductVM addProductVM)
         {
             if(ModelState.IsValid)
             {
+                //string ImageName = UploadImage(addProductVM.Images);
+
                 Product product = new Product
                 {
                     ProductName = addProductVM.ProductName,
@@ -44,9 +53,14 @@ namespace GetIT.Controllers
                     Price = addProductVM.Price
                 };
                 _IProductRepository.AddProduct(product);
+
+                //Upload image
+                await UploadImages(addProductVM.Images, product.Id);
+
+
                 ModelState.Clear();
                 addProductVM = new AddProductVM();
-                ModelState.AddModelError("Info","Product Added");
+                ModelState.AddModelError(,"Product Added");
             }
             loadDropDowns();
             return View(addProductVM);
@@ -82,5 +96,34 @@ namespace GetIT.Controllers
             return View(productListVM);
         }
 
+
+        private async Task<bool> UploadImages(IFormFile image, int productId)
+        {
+            bool isUploaded = false;
+
+            if (image == null)
+                return false;           
+   
+            if(_ImageStorageHelper.IsImage(image))
+            {
+                using (Stream stream = image.OpenReadStream())
+                {
+                    string imageName = $"{Guid.NewGuid()}_{image.FileName}"; 
+                    isUploaded = await _ImageStorageHelper.UploadImagesToStorage(stream, imageName);
+                    if(isUploaded)
+                    {
+                        ProductImages productImage = new ProductImages
+                        {
+                            ProductId = productId,
+                            ImageFileName = imageName,
+                            UploadTimeStamp = DateTime.Now
+                        };
+                        _IProductRepository.AddProductImage(productImage);
+                    }
+                }
+            }
+            
+            return isUploaded;
+        }
     }
 }

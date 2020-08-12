@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using GetIT.Context;
 using GetIT.DatabaseLayer.Repository.Implementation;
 using GetIT.DatabaseLayer.Repository.Interface;
+using GetIT.Helpers.Implementation;
+using GetIT.Helpers.Interface;
+using GetIT.Utility.Classes;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,8 +33,9 @@ namespace GetIT
         {
             services.AddMvc();
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("GetITDbConnection")));
-
+            services.Configure<AzureStorageConfig>(_config.GetSection("AzureStorageConfig"));
             services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddSingleton<IImageStorageHelper, ImageStorageHelper>();
 
             services.AddIdentity<IdentityUser, IdentityRole>(options=>
             {
@@ -46,6 +50,9 @@ namespace GetIT
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }else
+            {
+                app.UseExceptionHandler("/Error");
             }
 
             app.UseStaticFiles();

@@ -19,5 +19,7 @@ namespace GetIT.DatabaseLayer.Dto
         public int Category { get; set; }
 
         public int SubCategory { get; set; }
+
+        public string ImagePath { get; set; }
     }
 }

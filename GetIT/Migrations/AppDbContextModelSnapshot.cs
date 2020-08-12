@@ -29,6 +29,8 @@ namespace GetIT.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<string>("ImagePath");
+
                     b.Property<double>("Price");
 
                     b.Property<string>("ProductName");
@@ -55,6 +57,23 @@ namespace GetIT.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductCategories");
+                });
+
+            modelBuilder.Entity("GetIT.DatabaseLayer.Dto.ProductImages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageFileName");
+
+                    b.Property<int>("ProductId");
+
+                    b.Property<DateTime>("UploadTimeStamp");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("GetIT.DatabaseLayer.Dto.ProductSubCategory", b =>

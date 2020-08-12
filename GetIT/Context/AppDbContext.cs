@@ -20,5 +20,7 @@ namespace GetIT.Context
         public DbSet<ProductSubCategory> ProductSubCategories { get; set; }
 
         public DbSet<ProductCategory>   ProductCategories { get; set; }
+
+        public DbSet<ProductImages> ProductImages { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace GetIT.Models.ViewModels
         public int ProductSubCategory { get; set; }
 
         public List<string> ProductSubCategoryList { get; set; }
+
+        public IFormFile Images { get; set; }
 
     }
 

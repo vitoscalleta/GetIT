@@ -60,10 +60,17 @@ namespace GetIT.DatabaseLayer.Repository.Implementation
             return _DbContext.ProductSubCategories.ToList();
         }
 
-         public List<ProductSubCategory> GetProductSubCategoriesByCategory(int categoryID)
+        public List<ProductSubCategory> GetProductSubCategoriesByCategory(int categoryID)
         {
             return _DbContext.ProductSubCategories.Where(p => p.ProductCategory == categoryID).ToList();
         }
         
+
+        public void AddProductImage(ProductImages productImages)
+        {
+            _DbContext.ProductImages.Add(productImages);
+            _DbContext.SaveChanges();
+        }
+
     }
 }

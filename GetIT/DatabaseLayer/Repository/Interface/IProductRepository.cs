@@ -25,5 +25,8 @@ namespace GetIT.DatabaseLayer.Repository.Interface
         List<ProductSubCategory> GetProductSubCategoriesByCategory(int categoryID);
 
         int GetNextId();
+
+        void AddProductImage(ProductImages productImages);
+        
     }
 }

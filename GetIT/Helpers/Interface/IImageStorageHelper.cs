@@ -11,5 +11,6 @@ namespace GetIT.Helpers.Interface
     {
         Task<bool> UploadImagesToStorage(Stream fileStream, string fileName);
         bool IsImage(IFormFile file);
+        Task<string> GetImageData(string imageURL);
     }
 }

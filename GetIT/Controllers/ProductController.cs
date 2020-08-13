@@ -9,10 +9,7 @@ using GetIT.Helpers.Interface;
 using GetIT.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace GetIT.Controllers
 {
@@ -55,12 +52,13 @@ namespace GetIT.Controllers
                 _IProductRepository.AddProduct(product);
 
                 //Upload image
-                await UploadImages(addProductVM.Images, product.Id);
-
+                string imagePath = await UploadImages(addProductVM.Images, product.Id);
+                product.ImagePath = imagePath;
+                _IProductRepository.UpdateProduct(product);
 
                 ModelState.Clear();
                 addProductVM = new AddProductVM();
-                ModelState.AddModelError(,"Product Added");
+                ModelState.AddModelError("Info","Product Added");
             }
             loadDropDowns();
             return View(addProductVM);
@@ -79,36 +77,44 @@ namespace GetIT.Controllers
         }
 
         [HttpGet]
-        public ActionResult ProductList(int subCategoryId)
+        public async Task<ActionResult> ProductList(int subCategoryId)
         {
 
             List<Product> productList = _IProductRepository.GetProductsBySubCategories(subCategoryId);
             List<ProductSubCategory> productCategories = _IProductRepository.GetAllProductSubCategories();
 
-            List<ProductVM> productListVM = productList.Join(productCategories,
+            List<ProductVM> productListVM =  productList.Join(productCategories,
                                                             prod => prod.SubCategory,
                                                             subCat => subCat.Id,
-                                                            (prod, subCat) => new ProductVM()                                           { ProductName = prod.ProductName,
+                                                             (prod, subCat) => new ProductVM() { ProductName = prod.ProductName,
                                                               ProductSubCategory = subCat.Name,
                                                               Description = prod.Description,
-                                                              Price = prod.Price
-                                                            }).ToList();                         
+                                                              Price = prod.Price,
+                                                              ProductID = prod.Id,
+                                                              ImageURL = prod.ImagePath
+                                                            }).ToList();      
+            
+            foreach(var productVM in productListVM)
+            {
+                if(productVM.ImageURL != null && productVM.ImageURL != string.Empty)
+                        productVM.ImageDataURL = @"data:image/png;base64," + await _ImageStorageHelper.GetImageData(productVM.ImageURL);
+            }             
             return View(productListVM);
         }
 
 
-        private async Task<bool> UploadImages(IFormFile image, int productId)
+        private async Task<string> UploadImages(IFormFile image, int productId)
         {
             bool isUploaded = false;
-
+            string imageName = string.Empty;
             if (image == null)
-                return false;           
+                return string.Empty;           
    
             if(_ImageStorageHelper.IsImage(image))
             {
                 using (Stream stream = image.OpenReadStream())
                 {
-                    string imageName = $"{Guid.NewGuid()}_{image.FileName}"; 
+                    imageName = $"{Guid.NewGuid()}_{image.FileName}"; 
                     isUploaded = await _ImageStorageHelper.UploadImagesToStorage(stream, imageName);
                     if(isUploaded)
                     {
@@ -123,7 +129,10 @@ namespace GetIT.Controllers
                 }
             }
             
-            return isUploaded;
+            return imageName;
         }
+
+
+       
     }
 }

@@ -43,6 +43,29 @@ namespace GetIT.Helpers.Implementation
 
         }
 
+        public async Task<string> GetImageData(string imageURL)   
+        {
+            List<string> thumbnailUrls = new List<string>();
+
+            // Create a URI to the storage account
+            Uri accountUri = new Uri("https://" + _storageConfig.AccountName + ".blob.core.windows.net/");
+
+            // Create BlobServiceClient from the account URI
+            BlobServiceClient blobServiceClient = new BlobServiceClient(accountUri);
+
+            // Get reference to the container
+            BlobContainerClient container = blobServiceClient.GetBlobContainerClient(_storageConfig.ImageContainer);
+
+            BlobClient blobClient = container.GetBlobClient(imageURL);           
+
+            BlobDownloadInfo download = await blobClient.DownloadAsync();
+
+            MemoryStream ms = new MemoryStream();
+            download.Content.CopyTo(ms);
+            string strBase64 = Convert.ToBase64String(ms.ToArray());           
+
+            return await Task.FromResult(strBase64);
+        }
 
         public bool IsImage(IFormFile file)
         {

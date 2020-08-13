@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GetIT.Models.ViewModels
+﻿namespace GetIT.Models.ViewModels
 {
     public class ProductVM
     {
@@ -16,6 +11,12 @@ namespace GetIT.Models.ViewModels
         public string ProductCategory { get; set; }
 
         public string ProductSubCategory { get; set; }
+
+        public string ImageDataURL { get; set; }
+
+        public int ProductID { get; set; }
+
+        public string ImageURL { get; set; }
 
     }
 }

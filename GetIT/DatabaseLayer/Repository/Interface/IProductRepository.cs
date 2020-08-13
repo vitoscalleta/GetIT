@@ -27,6 +27,9 @@ namespace GetIT.DatabaseLayer.Repository.Interface
         int GetNextId();
 
         void AddProductImage(ProductImages productImages);
-        
+
+        void UpdateProduct(Product product);
+
+
     }
 }

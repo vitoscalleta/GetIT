@@ -1,11 +1,8 @@
 ﻿using GetIT.Context;
 using GetIT.DatabaseLayer.Dto;
 using GetIT.DatabaseLayer.Repository.Interface;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace GetIT.DatabaseLayer.Repository.Implementation
 {
@@ -26,6 +23,12 @@ namespace GetIT.DatabaseLayer.Repository.Implementation
         public void AddProduct(Product product)
         {
             _DbContext.Products.Add(product);
+            _DbContext.SaveChanges();
+        }
+
+        public void UpdateProduct(Product product)
+        {
+            _DbContext.Products.Update(product);
             _DbContext.SaveChanges();
         }
 

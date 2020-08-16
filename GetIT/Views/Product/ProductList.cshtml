@@ -6,12 +6,12 @@
 
 
 <div class="container container-fluid">
-    <div class="row">
+    <div class="row ">        
         @foreach (ProductVM product in Model)
         {
-            <div class="col-md-4 col-sm-2 col-1">
-                <div class="card">
-                    <img class="card-img-top" src="@product.ImageDataURL" alt="Card image cap">
+            <div class="col-md-4 col-sm-2 col-1 d-flex my-1">
+                <div class="card flex-fill">       
+                    <img class="card-img-top img-fluid" style="height:18rem" src="@product.ImageDataURL" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">@product.ProductName</h5>
                         <h6 class="card-subtitle text-muted">$ @product.Price</h6>

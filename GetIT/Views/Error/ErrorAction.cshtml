@@ -1,0 +1,22 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ErrorAction</title>
+    
+</head>
+<body>
+    <div class="container">
+        <h2> Exception Occurred </h2>
+        <div class="bg-danger">
+            @ViewBag.Path
+        </div>
+        <div class="bg-danger">
+            @ViewBag.Error
+        </div>
+    </div>
+</body>

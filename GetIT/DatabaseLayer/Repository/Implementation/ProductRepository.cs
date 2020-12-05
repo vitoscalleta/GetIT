@@ -10,9 +10,9 @@ namespace GetIT.DatabaseLayer.Repository.Implementation
     {
         private readonly AppDbContext _DbContext;
 
-        public ProductRepository(AppDbContext dbContext)
+        public ProductRepository(AppDbContext appDbContext)
         {
-            _DbContext = dbContext;
+            _DbContext = appDbContext;
         }
 
         public int GetNextId()

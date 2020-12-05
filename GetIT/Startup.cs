@@ -33,9 +33,9 @@ namespace GetIT
         {
             services.AddMvc();
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("GetITDbConnection")));
-            services.Configure<AzureStorageConfig>(_config.GetSection("AzureStorageConfig"));
+            services.Configure<AzureStorageConfig>(_config.GetSection("xxxxx"));
             services.AddTransient<IProductRepository, ProductRepository>();
-            services.AddSingleton<IImageStorageHelper, ImageStorageHelper>();
+            services.AddSingleton<IImageStorageHelper, ImageStorageHelper_Local>();
 
             services.AddIdentity<IdentityUser, IdentityRole>(options=>
             {
@@ -49,12 +49,15 @@ namespace GetIT
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-            }else
+                //app.UseExceptionHandler("/Error/");
+                app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");                
+                //app.UseDeveloperExceptionPage();                
+            }
+            else
             {
                 app.UseExceptionHandler("/Error");
             }
-
             app.UseStaticFiles();
 
             app.UseAuthentication();
@@ -65,10 +68,7 @@ namespace GetIT
                     name : "default",
                     template : "{controller=Home}/{action=Index}/{id?}");
             } );
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            
         }
     }
 }

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using static GetIT.Utility.Classes.CustomValidations;
 
 namespace GetIT.Models
 {
@@ -11,6 +13,8 @@ namespace GetIT.Models
         [Required]
         [EmailAddress]
         [DataType(DataType.EmailAddress)]
+        [Remote(action:"IsEmailInUse", controller:"Account")]
+        [EmailDomainValidation(domainName:"getit.com", errorMessage: "The email id should be of the domain: getit.com ")]
         public string Email { get; set; }
 
         [Required]
@@ -26,5 +30,8 @@ namespace GetIT.Models
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "The Passwords must match")]
         public string ConfirmPassword { get; set; }
+
+
+        public string City { get; set; }
     }
 }

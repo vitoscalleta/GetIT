@@ -1,0 +1,52 @@
+﻿@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+@model GetIT.Models.ViewModels.EditRoleVM;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Edit Role";
+}
+
+<div class="row">
+    <div class="col-12">
+        <form method="post">
+            <div asp-validation-summary="All" class="text text-danger"></div>
+            <div class="card mx-2">
+                <div class="card-header">
+                    <h4 class="card-title">Edit Role</h4>
+                </div>
+                <div class="card-body">   
+                    <div class="form-group">
+                        <label class="" asp-for="RoleID"> Role Id </label>
+                        <input class="col-md-3 form-control" disabled asp-for="RoleID" />
+                    </div>                    
+                    <div class="form-group">
+                        <label class="" asp-for="RoleName"> Role Name </label>
+                        <input class="col-md-3 form-control" asp-for="RoleName" />
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-success" type="submit">Update</button>
+                </div>
+            </div>
+        </form>
+        <div class="card my-2 mx-2">
+            <div class="card-header">
+                <h5 class="card-title">Users</h5>
+            </div>
+            <div class="card-body">
+                @if(Model.Users.Any())
+                {
+                    <ul class="list-group">
+                        @foreach(string userName in Model.Users)
+                        {
+                            <li class="list-group-item-info"> @userName </li>
+                        }
+                    </ul>
+                }else
+                {
+                    <p class="text-info"> No users are mapped to this role </p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

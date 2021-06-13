@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GetIT.Context;
+using GetIT.DatabaseLayer.Dto;
 using GetIT.DatabaseLayer.Repository.Implementation;
 using GetIT.DatabaseLayer.Repository.Interface;
 using GetIT.Helpers.Implementation;
 using GetIT.Helpers.Interface;
 using GetIT.Utility.Classes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,13 +34,19 @@ namespace GetIT
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc(options => {
+                var policy = new AuthorizationPolicyBuilder()
+                             .RequireAuthenticatedUser()
+                             .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            });
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("GetITDbConnection")));
             services.Configure<AzureStorageConfig>(_config.GetSection("xxxxx"));
-            services.AddTransient<IProductRepository, ProductRepository>();
-            services.AddSingleton<IImageStorageHelper, ImageStorageHelper_Local>();
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options=>
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddSingleton<IImageStorageHelper, ImageStorageHelper_Local>();          
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(options=>
             {
             options.Password.RequiredLength = 5;
             options.Password.RequireLowercase = false;

@@ -1,0 +1,44 @@
+﻿@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+@using Microsoft.AspNetCore.Identity;
+@model IEnumerable<IdentityRole>;
+
+@{
+    ViewBag.Title = "All Roles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="px-2">All Roles</h2>
+<div class="row">
+    <div class="col-12">
+        <a class="btn btn-primary mx-2"  asp-action="CreateRole" asp-controller="Account"><span class="fa fa-plus"></span> Create Role</a>
+    </div>
+</div>
+@if (Model.Any())
+{
+    <div class="row px-2">
+        <div class="col-6">
+            @foreach (var role in Model)
+            {
+            <div class="card my-2">
+                <div class="card-header">
+                    @role.Id
+                </div>
+                <div class="card-body">
+                    @role.Name
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-success" asp-action="EditRole" asp-controller="Account" asp-route-roleId="@role.Id">Edit</a>
+                </div>
+            </div>
+            }
+        </div>
+    </div>   
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No Roles to Display
+        </div>
+    </div>
+}

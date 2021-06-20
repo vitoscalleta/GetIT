@@ -54,9 +54,11 @@ namespace GetIT
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options=>
             {
-            options.Password.RequiredLength = 5;
-            options.Password.RequireLowercase = false;
+                options.Password.RequiredLength = 5;
+                options.Password.RequireLowercase = false;
+                options.SignIn.RequireConfirmedEmail = true;
             }).AddEntityFrameworkStores<AppDbContext>().AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>(TokenOptions.DefaultProvider);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

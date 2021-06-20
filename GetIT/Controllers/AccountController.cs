@@ -174,6 +174,10 @@ namespace GetIT.Controllers
                         else
                             return RedirectToAction("index", "home");
                     }
+                    else if (result.IsNotAllowed)
+                    {
+                        ModelState.AddModelError("", "Email Verification pending");
+                    }
                     else
                     {
                         ModelState.AddModelError("", "Invalid Username or password");

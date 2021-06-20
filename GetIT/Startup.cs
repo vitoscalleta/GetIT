@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 
 namespace GetIT
 {
@@ -44,13 +46,17 @@ namespace GetIT
             services.Configure<AzureStorageConfig>(_config.GetSection("xxxxx"));
 
             services.AddTransient<IProductRepository, ProductRepository>();
-            services.AddSingleton<IImageStorageHelper, ImageStorageHelper_Local>();          
+            services.AddSingleton<IImageStorageHelper, ImageStorageHelper_Local>();
+
+            var mailKitOptions = _config.GetSection("MailKitOptions").Get<MailKitOptions>();
+
+            services.AddMailKit(config => { config.UseMailKit(mailKitOptions);});
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options=>
             {
             options.Password.RequiredLength = 5;
             options.Password.RequireLowercase = false;
-            }).AddEntityFrameworkStores<AppDbContext>();
+            }).AddEntityFrameworkStores<AppDbContext>().AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>(TokenOptions.DefaultProvider);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

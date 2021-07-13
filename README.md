@@ -1,5 +1,9 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+This is a sample .Net Application that demonstrates the use of the following concepts in .Net.
+1. ASP .Net Tag helpers
+2. Dependency Injection
+3. ASP .Net Identity
+4. Image upload to Azure Blob storage
 
 # Getting Started
 TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
